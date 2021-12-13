@@ -53,7 +53,7 @@ def get_greynoise_feed():
     file.close()
 
 def compile_null_routes():
-    ''' This function will compile the null routes for Cisco routers'''
+    ''' This function will compile the null routes for supported platforms. '''
 
     inputFile = open(greynoise_ip_list, 'r')
     badaddrs = inputFile.readlines()
