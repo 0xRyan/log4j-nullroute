@@ -69,7 +69,7 @@ def compile_null_routes():
     with open(arista_eos_commands_file, 'w') as file:
         for ipaddr in badaddrs:
             ipaddr = ipaddr.strip("\n")
-            file.write(f"ip route {ipaddr}/32 Null0 name log4jblock\n")
+            file.write(f"ip route {ipaddr}/32 null0 name log4jblock\n")
     file.close()
 
 def configure_null_routes(username, password, edge_routers):
@@ -87,7 +87,7 @@ def configure_null_routes(username, password, edge_routers):
             detect_platform = SSHDetect(**device)
             platform_type = detect_platform.autodetect()
             device['device_type'] = platform_type
-            
+
             if platform_type == 'cisco_ios' or platform_type == 'arista_eos':
                 net_connect = ConnectHandler(**device)
                 net_connect.send_config_from_file(platform_type + '_nullroute_commands.txt')
