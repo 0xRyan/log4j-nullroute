@@ -1,6 +1,6 @@
 # Script will update and block the list of malicious log4j IP addresses based on the greynoise.io feed.
-# Recommend running this as a cron job on a ~5 minute interval to keep up to date.
-# https://crontab.guru/every-5-minutes
+# Recommend running this as a cron job to keep up to date.
+# https://crontab.guru/
 
 # ty @Andrew___Morris and the Greynoise team for the public service and solid intel. Absolute legends.
 
@@ -50,8 +50,6 @@ def get_greynoise_feed():
             else:
                 continue
 
-    file.close()
-
 def compile_null_routes():
     ''' This function will compile the null routes for supported platforms. '''
 
@@ -63,14 +61,12 @@ def compile_null_routes():
         for ipaddr in badaddrs:
             ipaddr = ipaddr.strip("\n")
             file.write(f"ip route {ipaddr} 255.255.255.255 Null0 name log4jblock\n")
-    file.close()
 
     # Generate cmd output for arista_eos platform
     with open(arista_eos_commands_file, 'w') as file:
         for ipaddr in badaddrs:
             ipaddr = ipaddr.strip("\n")
             file.write(f"ip route {ipaddr}/32 null0 name log4jblock\n")
-    file.close()
 
 def configure_null_routes(username, password, edge_routers):
     ''' This will deploy and null route the Greynoise feed on all defined edge routers. '''
